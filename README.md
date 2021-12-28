@@ -1,6 +1,8 @@
 # flux-2
 Enhanced version of Home Assistant's Flux component allowing more granular control of color temperature and brightness making flux-2 more suitable for us living far from the equator. 
 
+## Configuration
+
 One can now define various time spans by setting following flux options in configuration.yaml (if not set then options do default to corresponding astronomical times):
 ```
     start_time: '07:00'
@@ -29,8 +31,6 @@ Flux-2 can adjust brigthness within each time span by setting following flux opt
     
 These options allows quite granular control e.g. you can set lights to ramp up agressively during dusk, then stay at full brightness during the day and then ramp down less agressively on dawn - whatever is your preference.
 
-Install by dropping flux into ~/.homeassistant/custom_components . Please notice that flux-2 may or may not be compatible with the latest Home Assistant. I sadly lack time and cannot maintain this actively just like I cannot update my own Home Assistant installation actively :(
-
 Full configuration example:
 ```
 switch:
@@ -52,4 +52,28 @@ switch:
     disable_brightness_adjust: false
     mode: mired
     transition: 0.5
+```
+
+## Installation
+
+Install by dropping flux into ~/.homeassistant/custom_components . Please notice that flux-2 may or may not be compatible with the latest Home Assistant. I sadly lack time and cannot maintain this actively just like I cannot update my own Home Assistant installation actively :(
+
+## Tips and tricks
+
+Home Assistant won't "enforce" scenes etc. so if you have some bulbs powered off from mains they will start with color temperature and brigthness of whatever they want even when flux is supposed to be running and won't get updated until next scheduled flux "update". This may be highly annoying so to avoid ridiculously low interval setting following automation can be used to apply flux as soons as home assistant will detect bulb (on this example entity_ids are listed on separate yaml files on ~/.homeassistant/includes/entities/lights/):
+
+```
+- alias: Flux update on light on
+  trigger:
+  - platform: state
+    entity_id: !include_dir_merge_list includes/entities/lights/
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.flux
+    state: 'on'
+  action:
+  - service: switch.flux_update
+    data:
+      transition: 1
 ```
