@@ -22,3 +22,5 @@ Flux-2 can adjust brigthness within each time span by setting following flux opt
     stop_brightness: 128
     
 These options allows quite granular control e.g. you can set lights to ramp up agressively during dusk, then stay at full brightness during the day and then ramp down less agressively on dawn - whatever is your preference.
+
+Install by dropping flux into ~/.homeassistant/custom_components . Please notive that flux-2 may or may not be compatible with the latest Home Assistant. I sadly lack time and cannot maintain this actively just like I cannot update my own Home Assistant installation actively :(
