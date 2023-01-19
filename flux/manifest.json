@@ -1,4 +1,5 @@
 {
+  "version": "0.0.1",
   "domain": "flux",
   "name": "Flux",
   "documentation": "https://www.home-assistant.io/integrations/flux",
